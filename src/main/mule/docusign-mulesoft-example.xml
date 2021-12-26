@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:docusign="http://www.mulesoft.org/schema/mule/docusign"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/docusign http://www.mulesoft.org/schema/mule/docusign/current/mule-docusign.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="docusign-mulesoft-exampleFlow" doc:id="0908ab11-6dab-4bf9-93bd-71ec69f09029" >
+		<http:listener doc:name="Listener" doc:id="97e9692e-ba36-4f54-a58a-b49753b03fb1" />
+		<docusign:get-v21-accounts-envelopes-documents-by-account-id-envelope-id-document-id doc:name="Documents Get Document" doc:id="96bf7621-b738-4dde-a257-c0ace110244d" />
+		<ee:transform doc:name="Transform Message" doc:id="2f462f84-9b2b-4d06-888f-66207fe714d0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="docusign-mulesoft-exampleFlow1" doc:id="ba3fbd21-5f48-4871-b178-0534c3ad02cc" >
+		<docusign:on-envelope-status-change-trigger doc:name="On envelope status change trigger" doc:id="3aa74cad-74c9-4a44-b9db-76e9c670975a" >
+			<scheduling-strategy >
+				<fixed-frequency />
+			</scheduling-strategy>
+		</docusign:on-envelope-status-change-trigger>
+		<ee:transform doc:name="Transform Message" doc:id="cfb5d6ca-7dd4-4c8a-a2a9-74363241ae78" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="9b4eb72a-cc6e-4f30-ae3c-b0e54514fe7b" />
+	</flow>
+</mule>
